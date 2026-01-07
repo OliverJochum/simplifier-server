@@ -1,15 +1,18 @@
 package com.oljochum.simplifier_server.simplify;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class SimplifyController {
-    private final SimplifyService simplifyService;
-    public SimplifyController(SimplifyService simplifyService) {
-        this.simplifyService = simplifyService;
+    @Autowired
+    private SimplifyService simplifyService;
+
+    public String handleLlamaTest() {
+        return simplifyService.llamaTest();
     }
 
-    public String handleSimplipy() {
-        return simplifyService.callSimplipy();
+    public String handleSimplipy(SimplifyRequestDTO req) {
+        return simplifyService.callSimplipy(req);
     }
 }

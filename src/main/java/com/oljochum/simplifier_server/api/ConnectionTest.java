@@ -1,18 +1,21 @@
 package com.oljochum.simplifier_server.api;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oljochum.simplifier_server.simplify.SimplifyController;
+import com.oljochum.simplifier_server.simplify.SimplifyRequestDTO;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
 public class ConnectionTest {
-    private final SimplifyController simplifyController;
-    
-    public ConnectionTest(SimplifyController simplifyController) {
-        this.simplifyController = simplifyController;
-    }
+    @Autowired
+    private SimplifyController simplifyController;
 
     @GetMapping("/api/ping")
     public String ping() {
@@ -20,8 +23,14 @@ public class ConnectionTest {
     }
 
     @GetMapping("/api/simplipy")
-    public String getSimplipy() {
-        return simplifyController.handleSimplipy();
+    public String getLlamaTest() {
+        return simplifyController.handleLlamaTest();
     }
+
+    @PostMapping("/api/simplipy")
+    public String postMethodName(@RequestBody SimplifyRequestDTO req) {
+        return simplifyController.handleSimplipy(req);
+    }
+    
     
 }
