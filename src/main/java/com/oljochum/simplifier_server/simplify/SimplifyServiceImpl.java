@@ -20,10 +20,10 @@ public class SimplifyServiceImpl implements SimplifyService {
                 .block();
     }
 
-    public String callSimplipy(SimplifyRequestDTO req) {
+    public String callSimplipyGenerateText(SimplifyRequestDTO req) {
         try {
             return webClient.post()
-                .uri("/simplipy")
+                .uri("/generate_text")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(req)
                 .retrieve()
@@ -31,11 +31,48 @@ public class SimplifyServiceImpl implements SimplifyService {
                 .map(response -> (String) response.get("response"))
                 .block();
     } catch (WebClientResponseException e) {
-        // Log status code, headers, and response body
         System.out.println("Status code: " + e.getStatusCode());
         System.out.println("Response body: " + e.getResponseBodyAsString());
         System.out.println("Headers: " + e.getHeaders());
-        throw e; // optionally re-throw
+        throw e;
+    }
+    }
+
+    @Override
+    public String callSimplipySentenceSimplify(SimplifyRequestDTO req) {
+        try {
+            return webClient.post()
+                .uri("/sentence_simplify")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(req)
+                .retrieve()
+                .bodyToMono(Map.class)
+                .map(response -> (String) response.get("response"))
+                .block();
+    } catch (WebClientResponseException e) {
+        System.out.println("Status code: " + e.getStatusCode());
+        System.out.println("Response body: " + e.getResponseBodyAsString());
+        System.out.println("Headers: " + e.getHeaders());
+        throw e;
+    }
+    }
+
+    @Override
+    public String callSimplipySentenceSuggest(SimplifyRequestDTO req) {
+        try {
+            return webClient.post()
+                .uri("/sentence_suggest")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(req)
+                .retrieve()
+                .bodyToMono(Map.class)
+                .map(response -> (String) response.get("response"))
+                .block();
+    } catch (WebClientResponseException e) {
+        System.out.println("Status code: " + e.getStatusCode());
+        System.out.println("Response body: " + e.getResponseBodyAsString());
+        System.out.println("Headers: " + e.getHeaders());
+        throw e;
     }
     }
 }

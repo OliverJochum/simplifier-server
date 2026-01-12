@@ -27,9 +27,19 @@ public class ConnectionTest {
         return simplifyController.handleLlamaTest();
     }
 
-    @PostMapping("/api/simplipy")
-    public String postMethodName(@RequestBody SimplifyRequestDTO req) {
-        return simplifyController.handleSimplipy(req);
+    @PostMapping("/api/simplipy/generate_text")
+    public String postSimplipyGenerateText(@RequestBody SimplifyRequestDTO req) {
+        return simplifyController.handleSimplipyGenerateText(req);
+    }
+
+    @PostMapping("/api/simplipy/sentence_simplify")
+    public String postSimplipySentenceSimplify(@RequestBody SimplifyRequestDTO req) {
+        return simplifyController.handleSimplipySentenceSimplify(req);
+    }
+
+    @PostMapping("/api/simplipy/sentence_suggest")
+    public String postSimplipySentenceSuggest(@RequestBody SimplifyRequestDTO req) {
+        return simplifyController.handleSimplipySentenceSuggest(req);
     }
     
     
