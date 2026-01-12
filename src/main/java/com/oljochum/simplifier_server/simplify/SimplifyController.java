@@ -12,15 +12,15 @@ public class SimplifyController {
         return simplifyService.llamaTest();
     }
 
-    public String handleSimplipyGenerateText(SimplifyRequestDTO req) {
+    public String handleSimplifyGenerateText(SimplifyRequestDTO req) {
         return simplifyService.callSimplipyGenerateText(req);
     }
 
-    public String handleSimplipySentenceSimplify(SimplifyRequestDTO req) {
+    public String handleSimplifySentenceSimplify(SimplifyRequestDTO req) {
         return simplifyService.callSimplipySentenceSimplify(req);
     }
 
-    public String handleSimplipySentenceSuggest(SimplifyRequestDTO req) {
+    public String handleSimplifySentenceSuggest(SimplifyRequestDTO req) {
         return simplifyService.callSimplipySentenceSuggest(req);
     }
 }
