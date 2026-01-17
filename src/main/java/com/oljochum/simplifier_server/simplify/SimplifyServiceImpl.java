@@ -42,7 +42,7 @@ public class SimplifyServiceImpl implements SimplifyService {
     public String callSimplipySentenceSimplify(SimplifyRequestDTO req) {
         try {
             return webClient.post()
-                .uri("/sentence_simplify")
+                .uri("/sentence_simplifications")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(req)
                 .retrieve()
@@ -61,7 +61,7 @@ public class SimplifyServiceImpl implements SimplifyService {
     public String callSimplipySentenceSuggest(SimplifyRequestDTO req) {
         try {
             return webClient.post()
-                .uri("/sentence_suggest")
+                .uri("/sentence_suggestions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(req)
                 .retrieve()
