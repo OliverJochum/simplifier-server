@@ -75,4 +75,22 @@ public class SimplifyServiceImpl implements SimplifyService {
         throw e;
     }
     }
+
+    @Override
+    public String callSimplipySynonyms(SynonymRequestDTO req) {
+        try {
+        return webClient.post()
+                .uri("/synonyms")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(req)
+                .retrieve()
+                .bodyToMono(String.class)  // just return JSON as a string
+                .block();
+        } catch (WebClientResponseException e) {
+            System.out.println("Status code: " + e.getStatusCode());
+            System.out.println("Response body: " + e.getResponseBodyAsString());
+            System.out.println("Headers: " + e.getHeaders());
+            throw e;
+        }
+    }
 }

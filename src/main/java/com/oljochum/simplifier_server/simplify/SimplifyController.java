@@ -23,4 +23,8 @@ public class SimplifyController {
     public String handleSimplifySentenceSuggest(SimplifyRequestDTO req) {
         return simplifyService.callSimplipySentenceSuggest(req);
     }
+
+    public String handleSimplifySynonyms(SynonymRequestDTO req) {
+        return simplifyService.callSimplipySynonyms(req);
+    }
 }

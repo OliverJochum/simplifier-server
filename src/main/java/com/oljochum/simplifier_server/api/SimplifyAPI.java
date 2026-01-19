@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.oljochum.simplifier_server.simplify.SimplifyController;
 import com.oljochum.simplifier_server.simplify.SimplifyRequestDTO;
+import com.oljochum.simplifier_server.simplify.SynonymRequestDTO;
 
 @RestController
 public class SimplifyAPI {
@@ -26,5 +27,10 @@ public class SimplifyAPI {
     @PostMapping("/api/simplify/sentence_suggest")
     public String postSimplifySentenceSuggest(@RequestBody SimplifyRequestDTO req) {
         return simplifyController.handleSimplifySentenceSuggest(req);
+    }
+
+    @PostMapping("/api/simplify/synonyms")
+    public String postSimplifySynonyms(@RequestBody SynonymRequestDTO req) {
+        return simplifyController.handleSimplifySynonyms(req);
     }
 }
