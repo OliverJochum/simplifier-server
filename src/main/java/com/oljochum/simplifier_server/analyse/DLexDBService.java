@@ -47,12 +47,14 @@ public class DLexDBService {
         }
     }
 
-    public Map<String, Integer> querySyllableCounts(List<String> words) {
+    public Map<String, Integer> querySyllableCounts(String text) {
         String sql = """
             SELECT typ_cit, typ_syls_cnt
             FROM "typposlem"
             WHERE typ_cit = ANY(?);
         """;
+
+            List<String> words = List.of(text.split("\\P{L}+"));
 
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             Array array = conn.createArrayOf("VARCHAR", words.toArray());

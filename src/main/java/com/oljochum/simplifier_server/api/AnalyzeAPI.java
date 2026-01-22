@@ -27,8 +27,8 @@ public class AnalyzeAPI {
     }
 
     @GetMapping("syllable_counts")
-    public Map<String, Integer> getSyllableCounts(@RequestParam List<String> words) {
-        return dLexDBService.querySyllableCounts(words);
+    public Map<String, Integer> getSyllableCounts(@RequestParam String text) {
+        return dLexDBService.querySyllableCounts(text);
     }
     
 
@@ -37,5 +37,14 @@ public class AnalyzeAPI {
         return analyzeService.hyphenateText(text);
     }
     
+    @GetMapping("fre")
+    public Integer getFRE(@RequestParam String text) {
+        return analyzeService.getFRE(text);
+    }
+
+    @GetMapping("wstf")
+    public Integer getWSTF(@RequestParam String text) {
+        return analyzeService.getWSTF(text);
+    }
     
 }
