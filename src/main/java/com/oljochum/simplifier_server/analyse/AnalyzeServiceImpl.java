@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -35,7 +34,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
         }
         return hyphenationPatternsDE;
     }
-    
+
     @Override
     public Integer getFRE(String text) {
         Map<String, Integer> syllableCounts = getSyllableCounts(text);
