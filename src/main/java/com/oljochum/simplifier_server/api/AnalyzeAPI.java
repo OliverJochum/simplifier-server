@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oljochum.simplifier_server.analyse.AnalyzeService;
 import com.oljochum.simplifier_server.analyse.DLexDBService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AnalyzeAPI {
     @Autowired
     private DLexDBService dLexDBService;
+    @Autowired
+    private AnalyzeService analyzeService;
 
     @GetMapping("syllable_count")
     public Integer getSyllableCount(@RequestParam String word) {
@@ -26,6 +29,12 @@ public class AnalyzeAPI {
     @GetMapping("syllable_counts")
     public Map<String, Integer> getSyllableCounts(@RequestParam List<String> words) {
         return dLexDBService.querySyllableCounts(words);
+    }
+    
+
+    @GetMapping("hyphenate")
+    public Map<String, Integer> hyphenate(@RequestParam String text) {
+        return analyzeService.hyphenateText(text);
     }
     
     
