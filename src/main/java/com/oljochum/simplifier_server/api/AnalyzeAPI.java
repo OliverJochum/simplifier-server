@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.oljochum.simplifier_server.analyse.AnalyzeService;
 import com.oljochum.simplifier_server.analyse.DLexDBService;
+import com.oljochum.simplifier_server.analyse.scores.Score;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -21,6 +24,12 @@ public class AnalyzeAPI {
     @Autowired
     private AnalyzeService analyzeService;
 
+    private final Map<String, Score> scores;
+    
+    public AnalyzeAPI(Map<String, Score> scores) {
+        this.scores = scores;
+    }
+
     @GetMapping("syllable_count")
     public Integer getSyllableCount(@RequestParam String word) {
         return dLexDBService.querySyllableCount(word);
@@ -31,20 +40,13 @@ public class AnalyzeAPI {
         return dLexDBService.querySyllableCounts(text);
     }
     
-
-    @GetMapping("hyphenate")
-    public Map<String, Integer> hyphenate(@RequestParam String text) {
-        return analyzeService.hyphenateText(text);
-    }
-    
-    @GetMapping("fre")
-    public Integer getFRE(@RequestParam String text) {
-        return analyzeService.getFRE(text);
-    }
-
-    @GetMapping("wstf")
-    public Integer getWSTF(@RequestParam String text) {
-        return analyzeService.getWSTF(text);
+    @GetMapping("/{score}")
+    public Integer getScore(@PathVariable String score, @RequestParam String text) {
+        Score scoreService = scores.get(score);
+        if (scoreService == null) {
+            throw new IllegalArgumentException("Unknown type: " + score);
+        }
+        return scoreService.calculate(text);
     }
     
 }
