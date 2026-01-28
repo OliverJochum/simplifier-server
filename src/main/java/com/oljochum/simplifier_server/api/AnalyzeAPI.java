@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.oljochum.simplifier_server.analyse.AnalyzeService;
 import com.oljochum.simplifier_server.analyse.DLexDBService;
+import com.oljochum.simplifier_server.analyse.scores.CtxtRetentionMetric;
+import com.oljochum.simplifier_server.analyse.scores.ReadibilityMetric;
 import com.oljochum.simplifier_server.analyse.scores.Score;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +26,13 @@ public class AnalyzeAPI {
     @Autowired
     private AnalyzeService analyzeService;
 
-    private final Map<String, Score> scores;
+    // generic lets you define any type which implements interfaces
+    private final Map<String, ? extends ReadibilityMetric> readbilityScores;
+    private final Map<String, ? extends CtxtRetentionMetric> ctxtRetentionScores;
     
-    public AnalyzeAPI(Map<String, Score> scores) {
-        this.scores = scores;
+    public AnalyzeAPI(Map<String, ? extends ReadibilityMetric> readbilityScores, Map<String, ? extends CtxtRetentionMetric> ctxtRetentionScores) {
+        this.readbilityScores = readbilityScores;
+        this.ctxtRetentionScores = ctxtRetentionScores;
     }
 
     @GetMapping("syllable_count")
@@ -40,13 +45,21 @@ public class AnalyzeAPI {
         return dLexDBService.querySyllableCounts(text);
     }
     
-    @GetMapping("/{score}")
+    @GetMapping("readability/{score}")
     public Integer getScore(@PathVariable String score, @RequestParam String text) {
-        Score scoreService = scores.get(score);
+        ReadibilityMetric scoreService = readbilityScores.get(score);
         if (scoreService == null) {
             throw new IllegalArgumentException("Unknown type: " + score);
         }
         return scoreService.calculate(text);
     }
     
+    @GetMapping("context_retention/{score}")
+    public Float getContextRetentionScore(@PathVariable String score, @RequestParam String candidateText, @RequestParam String referenceText) {
+        CtxtRetentionMetric scoreService = ctxtRetentionScores.get(score);
+        if (scoreService == null) {
+            throw new IllegalArgumentException("Unknown type: " + score);
+        }
+        return scoreService.calculate(candidateText, referenceText);
+    }
 }

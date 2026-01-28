@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.oljochum.simplifier_server.analyse.AnalyzeServiceImpl;
 
 @Service("fre")
-public class FRE extends Score {
+public class FRE extends Score implements ReadibilityMetric {
     private static final Logger logger = LoggerFactory.getLogger(AnalyzeServiceImpl.class); 
 
     @Override

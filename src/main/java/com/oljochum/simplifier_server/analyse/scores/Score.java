@@ -8,6 +8,4 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class Score {
     @Autowired
     protected ScoreUtils scoreUtils;
-    
-    public abstract Integer calculate(String text);
 }

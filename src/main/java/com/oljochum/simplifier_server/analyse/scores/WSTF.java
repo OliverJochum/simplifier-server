@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 @Service("wstf")
-public class WSTF extends Score {
+public class WSTF extends Score implements ReadibilityMetric {
     @Override
     public Integer calculate(String text) {
         // MS is the percentage of words with three syllables or more
