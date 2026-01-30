@@ -14,12 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oljochum.simplifier_server.analyse.DLexDBService;
+import com.oljochum.simplifier_server.utils.FileParseUtils;
 
 import io.github.nianna.api.HyphenatedText;
 import io.github.nianna.api.Hyphenator;
 
 @Service
 public class ScoreUtils {
+    @Autowired
+    private FileParseUtils fileParseUtils;
+    
     @Autowired
     private DLexDBService dLexDBService;
 
@@ -59,18 +63,31 @@ public class ScoreUtils {
 
     public int getSentenceCount(String text) {
         BreakIterator sentenceIterator = BreakIterator.getSentenceInstance(Locale.GERMAN);
+        Map<String, String> GERMAN_ABBREVIATIONS = fileParseUtils.loadGermanAbbreviations();
+        for (var e : GERMAN_ABBREVIATIONS.entrySet()) {
+            text = text.replace(e.getKey(), e.getValue());
+        }
         sentenceIterator.setText(text);
 
         int sentenceCount = 0;
         int start = sentenceIterator.first();
         while (sentenceIterator.next() != BreakIterator.DONE) {
+            String sentence = text.substring(start, sentenceIterator.current());
+            for (var e : GERMAN_ABBREVIATIONS.entrySet()) {
+                sentence = sentence.replace(e.getValue(), e.getKey());
+            }
             sentenceCount++;
+            start = sentenceIterator.current();
         }
         return sentenceCount;
     }
 
     public List<Integer> getSentenceLengths(String text) {
         BreakIterator sentenceIterator = BreakIterator.getSentenceInstance(Locale.GERMAN);
+        Map<String, String> GERMAN_ABBREVIATIONS = fileParseUtils.loadGermanAbbreviations();
+        for (var e : GERMAN_ABBREVIATIONS.entrySet()) {
+            text = text.replace(e.getKey(), e.getValue());
+        }
         sentenceIterator.setText(text);
 
         List<Integer> sentenceLengths = new java.util.ArrayList<>();
@@ -78,8 +95,12 @@ public class ScoreUtils {
 
         while (sentenceIterator.next() != BreakIterator.DONE) {
             String sentence = text.substring(start, sentenceIterator.current());
+            for (var e : GERMAN_ABBREVIATIONS.entrySet()) {
+                sentence = sentence.replace(e.getValue(), e.getKey());
+            }
             int wordCount = getWords(sentence).size();
             sentenceLengths.add(wordCount);
+            start = sentenceIterator.current();
         }
         return sentenceLengths;
     }

@@ -75,4 +75,36 @@ public class DLexDBService {
             throw new RuntimeException("Failed to query syllable counts", e);
         }
     }
+
+    // threshold is a float for appearance per 10,000 documents (typ_div_con_nor)
+    public Map<String, Float> queryWordsByNormDocFreq(String text, float threshold) {
+        String sql = """
+            SELECT typ_cit, typ_div_con_nor
+            FROM "typposlem"
+            WHERE typ_cit = ANY(?)
+            AND typ_div_con_nor <= ?;
+        """;
+
+            List<String> words = List.of(text.split("\\P{L}+"));
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            Array array = conn.createArrayOf("VARCHAR", words.toArray());
+            ps.setArray(1, array);
+            ps.setFloat(2, threshold);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                Map<String, Float> result = new HashMap<>();
+                while (rs.next()) {
+                    result.put(
+                        rs.getString("typ_cit"),
+                        rs.getFloat("typ_div_con_nor")
+                    );
+                }
+                return result;
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Failed to query words by normalized document frequency", e);
+        }
+    }
 }

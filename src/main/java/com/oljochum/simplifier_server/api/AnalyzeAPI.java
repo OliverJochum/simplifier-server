@@ -62,4 +62,18 @@ public class AnalyzeAPI {
         }
         return scoreService.calculate(candidateText, referenceText);
     }
+
+    @GetMapping("rare_words")
+    public Map<String, Float> getRareWords(@RequestParam String text) {
+        return analyzeService.getRareWords(text);
+    }
+    
+    @GetMapping("complex_sentences")
+    public Map<String, Integer> getComplexSentence(@RequestParam String text, @RequestParam(required = false) Integer threshold) {
+        if (threshold != null) {
+            return analyzeService.getComplexSentencesByThreshold(text, threshold);
+        }
+        return analyzeService.getComplexSentencesByOutlier(text);
+    }
+    
 }
