@@ -7,10 +7,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+/**
+ * BERTScore implementation that communicates with an external BERTScore service. (See SimpliPy API)
+ * 
+ * Range:
+ * 0.0 - 1.0 (Higher is better - percentage similarity) e.g., 0.85 = 85% similar
+ */
 @Service("bertscore")
 public class BERTScore extends Score implements CtxtRetentionMetric {
     private final WebClient webClient = WebClient.create("http://localhost:8000");
-
 
     @Override
     public Float calculate(String candidateText, String referenceText) {

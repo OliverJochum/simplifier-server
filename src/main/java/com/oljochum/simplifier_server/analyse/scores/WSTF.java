@@ -5,6 +5,13 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+/**
+ * WSTF (Wiener Sachtextformel) Readibility Metric implementation.
+ * 
+ * Range:
+ * Difficulty Grades from 4 to 15 (comparable to German school grades up to 12, after then should be referred to as difficulty levels)
+ * 
+ */
 @Service("wstf")
 public class WSTF extends Score implements ReadibilityMetric {
     @Override
