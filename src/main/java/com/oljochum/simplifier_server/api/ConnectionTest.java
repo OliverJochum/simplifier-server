@@ -5,10 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oljochum.simplifier_server.simplify.SimplifyController;
-import com.oljochum.simplifier_server.simplify.SimplifyRequestDTO;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 
