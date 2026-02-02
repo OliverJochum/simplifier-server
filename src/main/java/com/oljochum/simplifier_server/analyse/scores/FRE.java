@@ -25,21 +25,22 @@ import com.oljochum.simplifier_server.analyse.AnalyzeServiceImpl;
  * 0-29: Very difficult
  */
 @Service("fre")
-public class FRE extends Score implements ReadibilityMetric {
+public class FRE extends Score {
     private static final Logger logger = LoggerFactory.getLogger(AnalyzeServiceImpl.class); 
 
     @Override
-    public Integer calculate(String text) {
-        Map<String, Integer> syllableCounts = scoreUtils.getSyllableCounts(text);
-        List<String> words = scoreUtils.getWords(text);
-        int sentenceCount = scoreUtils.getSentenceCount(text);
-        int totalSyllables = scoreUtils.getTotalSyllables(syllableCounts, words);
+    public float calculate(String... textArgs) {
+        String text = textArgs[0];
+        Map<String, Integer> syllableCounts = getSyllableCounts(text);
+        List<String> words = getWords(text);
+        int sentenceCount = getSentenceCount(text);
+        int totalSyllables = getTotalSyllables(syllableCounts, words);
 
         double ASL = (double) words.size() / sentenceCount;
         double ASW = (double) totalSyllables / words.size();
 
         logger.info("FRE Calculation: sentences={}, words={}, syllables={}, ASL={}, ASW={}", sentenceCount, words.size(), totalSyllables, ASL, ASW);
 
-       return (int) Math.round(180 - ASL - (58.5 * ASW));
+       return (float) Math.round(180 - ASL - (58.5 * ASW));
     }
 }

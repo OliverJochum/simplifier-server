@@ -4,6 +4,6 @@ import java.util.Map;
 
 public interface AnalyzeService {
     public Map<String, Float> getRareWords(String text);
-    public Map<String, Integer> getComplexSentencesByThreshold(String text, Integer threshold);
-    public Map<String, Integer> getComplexSentencesByOutlier(String text);
+    public Map<String, Float> getComplexSentencesByThreshold(String text, Integer threshold);
+    public Map<String, Float> getComplexSentencesByOutlier(String text);
 }

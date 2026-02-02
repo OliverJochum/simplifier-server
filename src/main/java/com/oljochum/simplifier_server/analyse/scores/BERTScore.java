@@ -14,11 +14,13 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
  * 0.0 - 1.0 (Higher is better - percentage similarity) e.g., 0.85 = 85% similar
  */
 @Service("bertscore")
-public class BERTScore extends Score implements CtxtRetentionMetric {
+public class BERTScore extends Score {
     private final WebClient webClient = WebClient.create("http://localhost:8000");
 
     @Override
-    public Float calculate(String candidateText, String referenceText) {
+    public float calculate(String... textArgs) {
+        String candidateText = textArgs[0];
+        String referenceText = textArgs[1];
         CtxtRetentionReqDTO req = new CtxtRetentionReqDTO(candidateText, referenceText);
         try {
             String res = webClient.post()

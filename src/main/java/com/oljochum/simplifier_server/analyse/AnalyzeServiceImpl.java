@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oljochum.simplifier_server.analyse.scores.FRE;
-import com.oljochum.simplifier_server.analyse.scores.ScoreUtils;
 import com.oljochum.simplifier_server.utils.FileParseUtils;
 
 import io.github.nianna.api.*;
@@ -24,9 +23,6 @@ public class AnalyzeServiceImpl implements AnalyzeService {
     private FRE fre;
     
     @Autowired
-    private ScoreUtils scoreUtils;
-    
-    @Autowired
     private DLexDBService dLexDBService;
     
     @Override
@@ -35,9 +31,9 @@ public class AnalyzeServiceImpl implements AnalyzeService {
     }
 
     @Override
-    public Map<String, Integer> getComplexSentencesByThreshold(String text, Integer threshold) {
+    public Map<String, Float> getComplexSentencesByThreshold(String text, Integer threshold) {
         Map<String, String> GERMAN_ABBREVIATIONS = fileParseUtils.loadGermanAbbreviations();
-        Map<String, Integer> sentencesByFRE = new HashMap<>();
+        Map<String, Float> sentencesByFRE = new HashMap<>();
         BreakIterator sentenceIterator = BreakIterator.getSentenceInstance(Locale.GERMAN);
         
         for (var e : GERMAN_ABBREVIATIONS.entrySet()) {
@@ -52,7 +48,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
             for (var e : GERMAN_ABBREVIATIONS.entrySet()) {
                 sentence = sentence.replace(e.getValue(), e.getKey());
             }
-            int score = fre.calculate(sentence);
+            float score = fre.calculate(sentence);
             if (score <= threshold) {
                 sentencesByFRE.put(sentence, score);
             }
@@ -62,9 +58,9 @@ public class AnalyzeServiceImpl implements AnalyzeService {
     }
 
     @Override
-    public Map<String, Integer> getComplexSentencesByOutlier(String text) {
+    public Map<String, Float> getComplexSentencesByOutlier(String text) {
         Map<String, String> GERMAN_ABBREVIATIONS = fileParseUtils.loadGermanAbbreviations();
-        Map<String, Integer> sentencesByOutlier = new HashMap<>();
+        Map<String, Float> sentencesByOutlier = new HashMap<>();
         BreakIterator sentenceIterator = BreakIterator.getSentenceInstance(Locale.GERMAN);
         for (var e : GERMAN_ABBREVIATIONS.entrySet()) {
             text = text.replace(e.getKey(), e.getValue());
@@ -79,7 +75,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
             for (var e : GERMAN_ABBREVIATIONS.entrySet()) {
                 sentence = sentence.replace(e.getValue(), e.getKey());
             }
-            int score = fre.calculate(sentence);
+            float score = fre.calculate(sentence);
             if (score <= outlier) {
                 sentencesByOutlier.put(sentence, score);
             }

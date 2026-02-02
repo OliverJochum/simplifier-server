@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.oljochum.simplifier_server.analyse.AnalyzeService;
 import com.oljochum.simplifier_server.analyse.DLexDBService;
-import com.oljochum.simplifier_server.analyse.scores.CtxtRetentionMetric;
-import com.oljochum.simplifier_server.analyse.scores.ReadibilityMetric;
+import com.oljochum.simplifier_server.analyse.scores.Score;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,12 +24,10 @@ public class AnalyzeAPI {
     private AnalyzeService analyzeService;
 
     // generic lets you define any type which implements interfaces
-    private final Map<String, ? extends ReadibilityMetric> readbilityScores;
-    private final Map<String, ? extends CtxtRetentionMetric> ctxtRetentionScores;
+    private final Map<String, ? extends Score> scores;
     
-    public AnalyzeAPI(Map<String, ? extends ReadibilityMetric> readbilityScores, Map<String, ? extends CtxtRetentionMetric> ctxtRetentionScores) {
-        this.readbilityScores = readbilityScores;
-        this.ctxtRetentionScores = ctxtRetentionScores;
+    public AnalyzeAPI(Map<String, ? extends Score> scores) {
+        this.scores = scores;
     }
 
     @GetMapping("syllable_count")
@@ -44,8 +41,8 @@ public class AnalyzeAPI {
     }
     
     @GetMapping("readability/{score}")
-    public Integer getScore(@PathVariable String score, @RequestParam String text) {
-        ReadibilityMetric scoreService = readbilityScores.get(score);
+    public Float getScore(@PathVariable String score, @RequestParam String text) {
+        Score scoreService = scores.get(score);
         if (scoreService == null) {
             throw new IllegalArgumentException("Unknown type: " + score);
         }
@@ -54,7 +51,7 @@ public class AnalyzeAPI {
     
     @GetMapping("context_retention/{score}")
     public Float getContextRetentionScore(@PathVariable String score, @RequestParam String candidateText, @RequestParam String referenceText) {
-        CtxtRetentionMetric scoreService = ctxtRetentionScores.get(score);
+        Score scoreService = scores.get(score);
         if (scoreService == null) {
             throw new IllegalArgumentException("Unknown type: " + score);
         }
@@ -67,7 +64,7 @@ public class AnalyzeAPI {
     }
     
     @GetMapping("complex_sentences")
-    public Map<String, Integer> getComplexSentence(@RequestParam String text, @RequestParam(required = false) Integer threshold) {
+    public Map<String, Float> getComplexSentence(@RequestParam String text, @RequestParam(required = false) Integer threshold) {
         if (threshold != null) {
             return analyzeService.getComplexSentencesByThreshold(text, threshold);
         }
