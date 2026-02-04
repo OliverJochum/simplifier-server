@@ -8,7 +8,7 @@ import com.oljochum.simplifier_server.sessions.Session;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user_accounts")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Session> sessions = new ArrayList<>();
 
     public void setUsername(String username) {
@@ -43,5 +43,12 @@ public class User {
         return sessions;
     }
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    protected User() {
+    }
     
 }

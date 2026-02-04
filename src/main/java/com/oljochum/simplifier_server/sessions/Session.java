@@ -8,7 +8,7 @@ import com.oljochum.simplifier_server.users.User;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "sessions")
+@Table(name = "session_saves")
 public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,16 +17,19 @@ public class Session {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Snapshot> snapshots = new ArrayList<>();
 
     public Session(String name, User user) {
         this.name = name;
         this.user = user;  
+    }
+    
+    protected Session() {
     }
 
     public List<Snapshot> getSnapshots() {

@@ -10,7 +10,7 @@ public class Snapshot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "session_id", nullable = false)
     private Session session;
 
@@ -27,6 +27,9 @@ public class Snapshot {
         this.datetime = LocalDateTime.now();
         this.input = input;
         this.output = output;
+    }
+
+    protected Snapshot() {
     }
 
     public Long getId() {
@@ -59,5 +62,9 @@ public class Snapshot {
 
     public void setOutput(String output) {
         this.output = output;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
     }
 }
