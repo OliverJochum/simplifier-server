@@ -44,6 +44,17 @@ public class SessionsAPI {
         return sessionDTOs;
     }
 
+    @GetMapping("/{sessionId}")
+    public SessionResDTO getSessionByUserId(@PathVariable Long sessionId, @RequestParam Long userId) {
+        Session session = sessionService.getSessionByUserId(sessionId, userId);
+        SnapshotResDTO[] snapshotDTOs = session.getSnapshots().stream()
+                    .map(snapshot -> new SnapshotResDTO(snapshot.getDatetime(), snapshot.getInput(), snapshot.getOutput()))
+                    .toArray(SnapshotResDTO[]::new);
+        SessionResDTO sessionDTO = new SessionResDTO(session.getName(), session.getId(), snapshotDTOs);
+        return sessionDTO;
+    }
+    
+
     @PostMapping("")
     public SessionResDTO createSession(@RequestBody SessionReqDTO sessionReqDTO) {
         Session session = sessionService.createSessionByUserId(sessionReqDTO.userId(), sessionReqDTO.sessionName());
