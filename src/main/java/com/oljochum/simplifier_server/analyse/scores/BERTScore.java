@@ -21,10 +21,10 @@ public class BERTScore extends Score {
     public float calculate(String... textArgs) {
         String candidateText = textArgs[0];
         String referenceText = textArgs[1];
-        CtxtRetentionReqDTO req = new CtxtRetentionReqDTO(candidateText, referenceText);
+        CtxtRetentionReqDTO req = new CtxtRetentionReqDTO(candidateText, referenceText, "bertscore");
         try {
             String res = webClient.post()
-                .uri("/bertscore")
+                .uri("/score")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(req)
                 .retrieve()
