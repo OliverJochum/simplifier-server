@@ -71,6 +71,17 @@ public class Glossary {
         this.user = user;
     }
 
+    public String stringify() {
+        StringBuilder sb = new StringBuilder();
+        for (TermPair pair : termPairs) {
+            sb.append(pair.getOriginalTerm())
+              .append(" -> ")
+              .append(pair.getReplacementTerm())
+              .append("\n");
+        }
+        return sb.toString();
+    }
+
     protected Glossary() {
     }
 }

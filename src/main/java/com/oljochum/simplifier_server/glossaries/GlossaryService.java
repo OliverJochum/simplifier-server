@@ -14,4 +14,5 @@ public interface GlossaryService {
     public Glossary updateTermPair(Long termPairId, String newOriginalTerm, String newReplacementTerm);
     public List<TermPair> getTermPairsByGlossaryId(Long glossaryId);
     public TermPair getTermPairById(Long termPairId);
+    public String stringifyGlossary(Long glossaryId);
 }

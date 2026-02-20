@@ -86,5 +86,11 @@ public class GlossaryServiceImpl implements GlossaryService {
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("TermPair " + termPairId + " not found in its glossary"));
     }
+
+    @Override
+    public String stringifyGlossary(Long glossaryId) {
+        Glossary glossary = getGlossaryById(glossaryId);
+        return glossary.stringify();
+    }
     
 }

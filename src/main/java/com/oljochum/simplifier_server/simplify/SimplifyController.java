@@ -2,6 +2,7 @@ package com.oljochum.simplifier_server.simplify;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class SimplifyController {
@@ -12,7 +13,10 @@ public class SimplifyController {
         return simplifyService.llamaTest();
     }
 
-    public String handleSimplifyGenerateText(SimplifyRequestDTO req) {
+    public String handleSimplifyGenerateText(SimplifyRequestDTO req, @RequestParam(required = false) Long glossaryId) {
+        if (glossaryId != null) {
+            return simplifyService.callSimplipyGenerateText(req, glossaryId);
+        }
         return simplifyService.callSimplipyGenerateText(req);
     }
 

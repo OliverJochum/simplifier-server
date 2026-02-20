@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oljochum.simplifier_server.simplify.SimplifyController;
@@ -17,8 +18,8 @@ public class SimplifyAPI {
     private SimplifyController simplifyController;
 
     @PostMapping("generate_text")
-    public String postSimplifyGenerateText(@RequestBody SimplifyRequestDTO req) {
-        return simplifyController.handleSimplifyGenerateText(req);
+    public String postSimplifyGenerateText(@RequestBody SimplifyRequestDTO req, @RequestParam(required = false) Long glossaryId) {
+        return simplifyController.handleSimplifyGenerateText(req, glossaryId);
     }
 
     @PostMapping("sentence_simplify")
