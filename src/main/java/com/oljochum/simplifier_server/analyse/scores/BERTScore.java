@@ -17,6 +17,13 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 public class BERTScore extends Score {
     private final WebClient webClient = WebClient.create("http://localhost:8000");
 
+    private ScoreType scoreType = ScoreType.CONTEXT_RETENTION;
+
+    @Override
+    public ScoreType getScoreType() {
+        return scoreType;
+    }
+
     @Override
     public float calculate(String... textArgs) {
         String candidateText = textArgs[0];

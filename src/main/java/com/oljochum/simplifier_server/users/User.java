@@ -2,8 +2,11 @@ package com.oljochum.simplifier_server.users;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.oljochum.simplifier_server.analyse.scores.Score.ScoreType;
 import com.oljochum.simplifier_server.sessions.Session;
+import com.oljochum.simplifier_server.utils.ScoreTypeMapConverter;
 
 import jakarta.persistence.*;
 
@@ -23,6 +26,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Session> sessions = new ArrayList<>();
 
+    @Column
+    @Convert(converter = ScoreTypeMapConverter.class)
+    private Map<String, ScoreType> selectedScores;
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -37,6 +44,14 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public Map<String, ScoreType> getSelectedScores() {
+        return selectedScores;
+    }
+
+    public void setSelectedScores(Map<String, ScoreType> selectedScores) {
+        this.selectedScores = selectedScores;
     }
 
     public List<Session> getSessions() {

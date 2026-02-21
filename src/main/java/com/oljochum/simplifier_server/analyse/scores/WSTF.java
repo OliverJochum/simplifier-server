@@ -14,6 +14,15 @@ import org.springframework.stereotype.Service;
  */
 @Service("wstf")
 public class WSTF extends Score {
+
+    private ScoreType scoreType = ScoreType.READABILITY;
+
+    @Override
+    public ScoreType getScoreType() {
+        return scoreType;
+    }
+
+
     @Override
     public float calculate(String... textArgs) {
         String text = textArgs[0];

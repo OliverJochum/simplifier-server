@@ -3,6 +3,9 @@ package com.oljochum.simplifier_server.sessions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.oljochum.simplifier_server.users.User;
 
 import jakarta.persistence.*;
@@ -19,6 +22,7 @@ public class Session {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)

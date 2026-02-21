@@ -29,6 +29,16 @@ public abstract class Score {
 
     private List<String> hyphenationPatternsDE = loadHyphenationPatterns();
 
+    public enum ScoreType {
+        READABILITY, CONTEXT_RETENTION
+    }
+
+    private ScoreType scoreType;
+
+    public ScoreType getScoreType() {
+        return scoreType;
+    }
+
     public abstract float calculate(String... textArgs);
 
     public List<String> loadHyphenationPatterns() {

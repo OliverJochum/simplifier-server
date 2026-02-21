@@ -28,6 +28,13 @@ import com.oljochum.simplifier_server.analyse.AnalyzeServiceImpl;
 public class FRE extends Score {
     private static final Logger logger = LoggerFactory.getLogger(AnalyzeServiceImpl.class); 
 
+    private ScoreType scoreType = ScoreType.READABILITY;
+
+    @Override
+    public ScoreType getScoreType() {
+        return scoreType;
+    }
+
     @Override
     public float calculate(String... textArgs) {
         String text = textArgs[0];

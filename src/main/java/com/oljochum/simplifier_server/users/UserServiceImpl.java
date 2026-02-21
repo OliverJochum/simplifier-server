@@ -1,9 +1,14 @@
 package com.oljochum.simplifier_server.users;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.oljochum.simplifier_server.analyse.scores.Score;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,5 +34,10 @@ public class UserServiceImpl implements UserService {
         return userRepo.findById(id);
     }
     
-    
+    @Override
+    public void updateSelectedScores(Long id, Map<String, Score.ScoreType> selectedScores) {
+        User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("User with ID " + id + " not found"));
+        user.setSelectedScores(selectedScores);
+        userRepo.save(user);
+    }
 }
