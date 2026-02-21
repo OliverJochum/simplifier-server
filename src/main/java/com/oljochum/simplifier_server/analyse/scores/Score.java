@@ -35,6 +35,9 @@ public abstract class Score {
 
     private float[] boundaries;
 
+    private float[] ranges;
+    private String[] rangeLabels;
+
     private ScoreType scoreType;
 
     public ScoreType getScoreType() {
@@ -42,6 +45,8 @@ public abstract class Score {
     }
 
     public abstract float calculate(String... textArgs);
+
+    public abstract String getLabel(float value);
 
     public List<String> loadHyphenationPatterns() {
         try (Stream<String> stream = Files.lines(Path.of("/Users/U462343/bachelors_thesis/simplifier-server/src/main/resources/hypenation_patterns/hyph-de-1996.pat.txt"))) {

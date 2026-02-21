@@ -21,9 +21,16 @@ public class BERTScore extends Score {
 
     private float[] boundaries = {0, 1};
 
+    private String rangeLabel = " (Similarity Percentage)";
+
     @Override
     public ScoreType getScoreType() {
         return scoreType;
+    }
+
+    @Override
+    public String getLabel(float value) {
+        return rangeLabel;
     }
 
     @Override
@@ -44,7 +51,7 @@ public class BERTScore extends Score {
             float value = Float.parseFloat(res);
             if (value < boundaries[0]) value = boundaries[0];
             if (value > boundaries[1]) value = boundaries[1];
-            
+
             return value;
         } catch (WebClientResponseException e) {
             System.out.println("Status code: " + e.getStatusCode());

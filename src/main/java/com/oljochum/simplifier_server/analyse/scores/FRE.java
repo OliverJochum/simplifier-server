@@ -32,9 +32,22 @@ public class FRE extends Score {
 
     private float[] boundaries = {0, 100};
 
+    private float[] ranges = {0, 30, 50, 60, 70, 80, 90, 100};
+    private String[] rangeLabels = {"Very difficult", "Difficult", "Fairly difficult", "Standard", "Fairly easy", "Easy", "Very easy"};
+
     @Override
     public ScoreType getScoreType() {
         return scoreType;
+    }
+
+    @Override
+    public String getLabel(float value) {
+        for (int i = 0; i < ranges.length - 1; i++) {
+            if (value >= ranges[i] && value < ranges[i + 1]) {
+                return " (" + rangeLabels[i] + ")";
+            }
+        }
+        return "Unknown";
     }
 
     @Override

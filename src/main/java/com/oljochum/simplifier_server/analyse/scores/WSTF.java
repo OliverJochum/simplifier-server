@@ -19,9 +19,16 @@ public class WSTF extends Score {
 
     private float[] boundaries = {4, 15};
 
+    private String rangeLabel = "th Grade";
+
     @Override
     public ScoreType getScoreType() {
         return scoreType;
+    }
+
+    @Override
+    public String getLabel(float value) {
+        return rangeLabel;
     }
 
 
@@ -47,5 +54,8 @@ public class WSTF extends Score {
         
         return value;
     }
+
+
+    
     
 }

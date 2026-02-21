@@ -44,21 +44,23 @@ public class AnalyzeAPI {
     }
     
     @GetMapping("readability/{score}")
-    public Float getScore(@PathVariable String score, @RequestParam String text) {
+    public Map<Float, String> getScore(@PathVariable String score, @RequestParam String text) {
         Score scoreService = scores.get(score);
         if (scoreService == null) {
             throw new IllegalArgumentException("Unknown type: " + score);
         }
-        return scoreService.calculate(text);
+        float value = scoreService.calculate(text);
+        return Map.of(value, scoreService.getLabel(value));
     }
     
     @GetMapping("context_retention/{score}")
-    public Float getContextRetentionScore(@PathVariable String score, @RequestParam String candidateText, @RequestParam String referenceText) {
+    public Map<Float, String> getContextRetentionScore(@PathVariable String score, @RequestParam String candidateText, @RequestParam String referenceText) {
         Score scoreService = scores.get(score);
         if (scoreService == null) {
             throw new IllegalArgumentException("Unknown type: " + score);
         }
-        return scoreService.calculate(candidateText, referenceText);
+        float value = scoreService.calculate(candidateText, referenceText);
+        return Map.of(value, scoreService.getLabel(value));
     }
 
     @GetMapping("rare_words")
