@@ -17,6 +17,8 @@ public class WSTF extends Score {
 
     private ScoreType scoreType = ScoreType.READABILITY;
 
+    private float[] boundaries = {4, 15};
+
     @Override
     public ScoreType getScoreType() {
         return scoreType;
@@ -38,7 +40,12 @@ public class WSTF extends Score {
         double IW = getWordPctByWordLength(words, 6);
         double ES = getWordPctBySyl(words, syllableCounts, 1, "==");
 
-        return  Math.round((0.1935 * MS) + (0.1672 * SL) + (0.1297 * IW) - (0.0327 * ES) - 0.875);
+        float value = Math.round((0.1935 * MS) + (0.1672 * SL) + (0.1297 * IW) - (0.0327 * ES) - 0.875);
+
+        if (value < boundaries[0]) value = boundaries[0];
+        if (value > boundaries[1]) value = boundaries[1];
+        
+        return value;
     }
     
 }

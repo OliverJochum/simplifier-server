@@ -33,6 +33,8 @@ public abstract class Score {
         READABILITY, CONTEXT_RETENTION
     }
 
+    private float[] boundaries;
+
     private ScoreType scoreType;
 
     public ScoreType getScoreType() {

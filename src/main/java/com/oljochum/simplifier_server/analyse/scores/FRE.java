@@ -30,6 +30,8 @@ public class FRE extends Score {
 
     private ScoreType scoreType = ScoreType.READABILITY;
 
+    private float[] boundaries = {0, 100};
+
     @Override
     public ScoreType getScoreType() {
         return scoreType;
@@ -48,6 +50,11 @@ public class FRE extends Score {
 
         logger.info("FRE Calculation: sentences={}, words={}, syllables={}, ASL={}, ASW={}", sentenceCount, words.size(), totalSyllables, ASL, ASW);
 
-       return (float) Math.round(180 - ASL - (58.5 * ASW));
+        float value = (float) Math.round(180 - ASL - (58.5 * ASW));
+
+        if (value < boundaries[0]) value = boundaries[0];
+        if (value > boundaries[1]) value = boundaries[1];
+        
+        return value;
     }
 }

@@ -19,6 +19,8 @@ public class BERTScore extends Score {
 
     private ScoreType scoreType = ScoreType.CONTEXT_RETENTION;
 
+    private float[] boundaries = {0, 1};
+
     @Override
     public ScoreType getScoreType() {
         return scoreType;
@@ -38,8 +40,12 @@ public class BERTScore extends Score {
                 .bodyToMono(Map.class)
                 .map(response -> (String) response.get("response"))
                 .block();
-
-            return Float.parseFloat(res);
+            
+            float value = Float.parseFloat(res);
+            if (value < boundaries[0]) value = boundaries[0];
+            if (value > boundaries[1]) value = boundaries[1];
+            
+            return value;
         } catch (WebClientResponseException e) {
             System.out.println("Status code: " + e.getStatusCode());
             System.out.println("Response body: " + e.getResponseBodyAsString());
