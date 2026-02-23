@@ -22,7 +22,7 @@ public class FileParseUtils {
 
     public Map<String, String> loadGermanAbbreviations() {
         try {
-            return loadAbbreviations(Path.of("/Users/U462343/bachelors_thesis/simplifier-server/src/main/resources/constants/abbreviations.csv"));
+            return loadAbbreviations(Path.of("/Users/oliverjochum/thesis/simplifier-server/src/main/resources/constants/abbreviations.csv"));
         } catch (IOException e) {
             e.printStackTrace();
             return Map.of();

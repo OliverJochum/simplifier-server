@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DLexDBService {
 
-    private static final String URL = "jdbc:duckdb:/Users/U462343/bachelors_thesis/duck-db-playground/dlex/data/dlex.duckdb";
+    private static final String URL = "jdbc:duckdb:/Users/oliverjochum/data/dlex.duckdb";
 
     public Connection getConnection() throws SQLException {
         Properties props = new Properties();

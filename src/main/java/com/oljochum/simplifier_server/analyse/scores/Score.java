@@ -49,7 +49,7 @@ public abstract class Score {
     public abstract String getLabel(float value);
 
     public List<String> loadHyphenationPatterns() {
-        try (Stream<String> stream = Files.lines(Path.of("/Users/U462343/bachelors_thesis/simplifier-server/src/main/resources/hypenation_patterns/hyph-de-1996.pat.txt"))) {
+        try (Stream<String> stream = Files.lines(Path.of("/Users/oliverjochum/thesis/simplifier-server/src/main/resources/hypenation_patterns/hyph-de-1996.pat.txt"))) {
             hyphenationPatternsDE = stream.toList();
         } catch (IOException e) {
             e.printStackTrace();
